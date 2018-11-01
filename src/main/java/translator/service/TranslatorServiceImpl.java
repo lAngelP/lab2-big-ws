@@ -1,15 +1,15 @@
 package translator.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.Future;
-
 import translator.domain.Language;
 import translator.domain.LanguageSourceTarget;
 import translator.domain.TranslatedText;
 import translator.domain.Translator;
 import translator.exception.TranslatorException;
+
+import java.util.concurrent.Future;
 
 @Service
 public class TranslatorServiceImpl implements TranslatorService {
@@ -17,7 +17,7 @@ public class TranslatorServiceImpl implements TranslatorService {
   private final Translator translator;
 
   @Autowired
-  public TranslatorServiceImpl(Translator translator) {
+  public TranslatorServiceImpl(@Qualifier("googleTranslator") Translator translator) {
     this.translator = translator;
   }
 
@@ -28,6 +28,7 @@ public class TranslatorServiceImpl implements TranslatorService {
       throw new TranslatorException("The languages from and to must be different.");
     }
     Future<String> translatorResult = translator.translate(languageSourceTarget, text);
+
     TranslatedText response = new TranslatedText();
     response.setFrom(languageSourceTarget.getSourceAsStr());
     response.setTo(languageSourceTarget.getTargetAsStr());

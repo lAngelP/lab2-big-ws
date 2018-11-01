@@ -8,14 +8,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.util.StringUtils;
+import translator.domain.LanguageSourceTarget;
+import translator.domain.Translator;
+import translator.exception.TranslatorException;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Scanner;
-
-import translator.domain.LanguageSourceTarget;
-import translator.domain.Translator;
-import translator.exception.TranslatorException;
 
 abstract class TranslatorImpl implements Translator {
 
@@ -35,7 +34,7 @@ abstract class TranslatorImpl implements Translator {
     }
   }
 
-  private String translateInternal(String from, String to, String text, String encodedText) throws IOException {
+  protected String translateInternal(String from, String to, String text, String encodedText) throws IOException {
     HttpRequestBase requestBase = getHttpRequest(from, to, text, encodedText);
     HttpClient httpclient = HttpClientBuilder.create().build();
     HttpResponse response = httpclient.execute(requestBase);
@@ -49,7 +48,7 @@ abstract class TranslatorImpl implements Translator {
 
   protected abstract HttpRequestBase getHttpRequest(String from, String to, String text, String encodedText);
 
-  private static String transformToString(HttpEntity entity) throws IOException {
+  protected static String transformToString(HttpEntity entity) throws IOException {
     if (entity == null) {
       return "";
     }
