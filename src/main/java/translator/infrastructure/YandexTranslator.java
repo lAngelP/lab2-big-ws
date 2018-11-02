@@ -1,16 +1,16 @@
 package translator.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import translator.exception.TranslatorException;
 
-@Component("yandexTranslator")
+@Component
+@Profile("yandexTranslator")
 public class YandexTranslator extends TranslatorImpl {
 
   private ObjectMapper om = new ObjectMapper();

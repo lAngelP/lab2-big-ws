@@ -6,21 +6,17 @@ import com.google.common.base.Joiner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component("googleTranslator")
+@Profile("googleTranslator")
 public class GoogleTranslator extends TranslatorImpl {
 
   private ObjectMapper om = new ObjectMapper();
@@ -61,17 +57,4 @@ public class GoogleTranslator extends TranslatorImpl {
     }
     return responseAsStr;
   }
-
-  protected String translateInternal(String from, String to, String text, String encodedText) throws IOException {
-    HttpRequestBase requestBase = getHttpRequest(from, to, text, encodedText);
-    HttpClient httpclient = HttpClientBuilder.create().build();
-    HttpResponse response = httpclient.execute(requestBase);
-    HttpEntity responseEntity = response.getEntity();
-    String responseAsStr = transformToString(responseEntity);
-    if (StringUtils.hasText(responseAsStr)) {
-      return getTranslationFrom(responseAsStr);
-    }
-    return "";
-  }
-
 }

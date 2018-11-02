@@ -1,7 +1,6 @@
 package translator.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import translator.domain.Language;
 import translator.domain.LanguageSourceTarget;
@@ -17,7 +16,7 @@ public class TranslatorServiceImpl implements TranslatorService {
   private final Translator translator;
 
   @Autowired
-  public TranslatorServiceImpl(@Qualifier("googleTranslator") Translator translator) {
+  public TranslatorServiceImpl(Translator translator) {
     this.translator = translator;
   }
 
